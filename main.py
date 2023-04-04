@@ -37,13 +37,13 @@ def main():
     episodes = how many episodes to run, as we are doing episodic learning
     agent = the agent in the RL
     '''
-    size = 20                                       #change the size of grid here
+    size = 10                                       #change the size of grid here
     redTerminals = [(2, 4), (2, 5), (2, 6), (2, 7), (2, 9),(6, 2), (7, 2), (8, 2), (9, 2), (7, 3),(7, 6), (7, 6), (7, 8),(7,7), (9, 3), (9, 4), (9, 5), (9, 6), (9, 7), (9, 8)] 
     greenTerminals = [(9,9)]
     episodes = 100                                   #change number of episodes here
-    terminals = createRandomTerminal(size,80,5)    #uncomment this line for random red terminals and green terminals 
-    redTerminals = terminals[0]                    #uncomment this line for random red terminals
-    greenTerminals = terminals[1]                  #uncomment this line for random green terminals
+    # terminals = createRandomTerminal(size,80,5)    #uncomment this line for random red terminals and green terminals 
+    # redTerminals = terminals[0]                    #uncomment this line for random red terminals
+    # greenTerminals = terminals[1]                  #uncomment this line for random green terminals
     agent = RL(size, redTerminals, greenTerminals,episodes)
     # agent.drawGrid()                               #uncomment this line to see grid on terminal
     agent.runEpisode()
