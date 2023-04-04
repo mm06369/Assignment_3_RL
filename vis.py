@@ -14,9 +14,9 @@ class DisplayGrid:
     def createWindow(self):
         self.window = Tk()
         self.window.title("Image Grid")
-        self.canvas = Canvas(self.window, width=400, height=400, bg="white")
+        self.canvas = Canvas(self.window, width=700, height=700, bg="white")
         self.canvas.pack()
-        cell_size = 400 // self.size
+        cell_size = 700 // self.size
         self.imagePath = {'up':tk.PhotoImage(file="images/up_arrow.png"), 'down':tk.PhotoImage(file="images/down_arrow.png"), 'left':tk.PhotoImage(file="images/left_arrow.png"), 'right': tk.PhotoImage(file="images/right_arrow.png")}
 
 
