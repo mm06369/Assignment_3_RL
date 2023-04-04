@@ -6,13 +6,15 @@ import math
 
 class RL:
 
-    def __init__(self, size, gamma = 0.8, alpha = 0.8, k = 0.6):
+    def __init__(self, size, redTerminals, greenTerminals, gamma = 0.8, alpha = 0.8, k = 0.6):
         self.gamma = gamma
         self.alpha = alpha
         self.k = k
         self.size = size
         self.grid = [[State() for j in range(self.size)] for i in range(self.size)]
         self.currentState = self.getStartPos()
+        self.redTerminals = redTerminals
+        self.greenTerminals = greenTerminals
         self.setupTerminal()
 
 
@@ -21,18 +23,17 @@ class RL:
 
     def setupTerminal(self):
         #setup red terminals
-        self.coord = [(2, 4), (2, 5), (2, 6), (2, 7), (2, 9),
-                          (6, 2), (7, 2), (8, 2), (9, 2), (7, 3),
-                          (7, 6), (7, 6), (7, 8),(7,7),
-                          (9, 3), (9, 4), (9, 5), (9, 6), (9, 7), (9, 8)] 
+        # self.coord = [(2, 4), (2, 5), (2, 6), (2, 7), (2, 9),
+        #                   (6, 2), (7, 2), (8, 2), (9, 2), (7, 3),
+        #                   (7, 6), (7, 6), (7, 8),(7,7),
+        #                   (9, 3), (9, 4), (9, 5), (9, 6), (9, 7), (9, 8)] 
 
-        # self.coord = [(0,4),(1,4),(2,4),(3,4),(4,4),(5,4),(5,1),(5,2),(5,3),(5,4),(5,5),(5,6),(5,7)]
-        for i in self.coord:
+        for i in self.redTerminals:
             self.grid[i[0]][i[1]].isTerminal = True
             self.grid[i[0]][i[1]].value = -100
             self.grid[i[0]][i[1]].reward = -100
         # self.coord = []
-        # for i in range(13):
+        # for i in range(5):
         #     i = random.randint(0,self.size - 1)
         #     j = random.randint(0,self.size - 1)
         #     while self.accessGridState(i, j) == True:
@@ -46,18 +47,24 @@ class RL:
             
         #setup green terminals 
         # self.greenCoord = []
-        # i = random.randint(0,self.size - 1)
-        # j = random.randint(0,self.size - 1)
-        # while self.accessGridState(i, j) == True:
+        # for i in range(4):
         #     i = random.randint(0,self.size - 1)
         #     j = random.randint(0,self.size - 1)
-        # self.grid[i][j].isTerminal = True
-        # self.grid[i][j].reward = 100
-        # self.grid[i][j].value = 100
-        # self.finalState = (i,j)
-        self.grid[9][9].isTerminal = True
-        self.grid[9][9].reward = 100
-        self.grid[9][9].value = 100
+        #     while self.accessGridState(i, j) == True:
+        #         i = random.randint(0,self.size - 1)
+        #         j = random.randint(0,self.size - 1)
+        #     self.grid[i][j].isTerminal = True
+        #     self.grid[i][j].reward = 100
+        #     self.grid[i][j].value = 100
+        #     self.greenCoord.append((i,j))
+        for x in self.greenTerminals:
+            self.grid[x[0]][x[1]].isTerminal = True
+            self.grid[x[0]][x[1]].reward = 100
+            self.grid[x[0]][x[1]].value = 100
+            # self.finalState = (i,j)
+            # self.grid[9][9].isTerminal = True
+            # self.grid[9][9].reward = 100
+            # self.grid[9][9].value = 100
         
     
     def drawGrid(self):
@@ -144,9 +151,7 @@ class RL:
         low = ranges[0][0]
         high = ranges[len(ranges)-1][1]
         randomNum = random.uniform(low,high)
-        # print(randomNum)
         for i in range(len(ranges)):
-            # print(ranges[i][0],ranges[i][1])
             if randomNum > ranges[i][0] and randomNum <= ranges[i][1]:
                 if i == 0:
                     return 'up'
@@ -160,10 +165,7 @@ class RL:
 
     def runEpisode(self):
         
-        green = False
-
-        for i in range(100):
-            
+        for i in range(100):    
             print("Episode: ", i)
             self.currentState = self.getStartPos()
             x,y = self.currentState
@@ -190,21 +192,8 @@ class RL:
                 self.grid[self.currentState[0]][self.currentState[1]].value = self.grid[self.currentState[0]][self.currentState[1]].value + (self.alpha)*(self.grid[i][j].reward + (self.gamma)*(self.grid[i][j].value) - self.grid[self.currentState[0]][self.currentState[1]].value)
                 self.currentState = (i,j)
                 
-                # if self.currentState == self.finalState:
-                #     green = True
-                #     break
-
-                # if self.currentState in self.coord:
-                #     print("Red Terminal Reached!")
-                #     break
-
-                print('Action Selected: ', action)
-                print(self.currentState)
-                # self.drawGrid()
-
-            # if green == True:
-            #     print("Green Terminal Reached!")
-            #     break
+                # print('Action Selected: ', action)
+                # print(self.currentState)
             
     def visualizeGrid(self):
         arrowDic = {}
@@ -259,21 +248,18 @@ class RL:
                     first = next(iter(possValues))
                     arrowDic[(i,j)] = first
 
-        # grid = TkinterGrid(self.size, self.coord, (9,9), arrowDic)
-        # grid.create_grid()
-        # grid.create()
-        # print(arrowDic)
-        grid = DisplayGrid(self.size, self.coord, (9,9) , arrowDic)
+        grid = DisplayGrid(self.size, self.redTerminals, self.greenTerminals, arrowDic)
         grid.createWindow()
 
 
                             
 
+n = 5
 
 
-bruh = RL(10)
+# bruh = RL(n)
 # print("Initial Grid: ")
 # bruh.drawGrid()
-bruh.runEpisode()
+# bruh.runEpisode()
 # bruh.drawGrid()
-bruh.visualizeGrid()
+# bruh.visualizeGrid()

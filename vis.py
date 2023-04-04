@@ -17,7 +17,7 @@ class DisplayGrid:
         self.canvas = Canvas(self.window, width=400, height=400, bg="white")
         self.canvas.pack()
         cell_size = 400 // self.size
-        self.imagePath = {'up':tk.PhotoImage(file="up_arrow.png"), 'down':tk.PhotoImage(file="down_arrow.png"), 'left':tk.PhotoImage(file="left_arrow.png"), 'right': tk.PhotoImage(file="right_arrow.png")}
+        self.imagePath = {'up':tk.PhotoImage(file="images/up_arrow.png"), 'down':tk.PhotoImage(file="images/down_arrow.png"), 'left':tk.PhotoImage(file="images/left_arrow.png"), 'right': tk.PhotoImage(file="images/right_arrow.png")}
 
 
 # Place the images on the canvas at the specified coordinates
@@ -28,7 +28,7 @@ class DisplayGrid:
                 if (j, i) in self.redBlocks:
                     # canvas.create_image(x0, y0, anchor=NW, image=images[coordinates.index((i, j))])
                     self.canvas.create_rectangle(x0, y0, x1, y1, fill="red")
-                elif (j,i) == self.green:
+                elif (j,i) in self.green:
                     self.canvas.create_rectangle(x0, y0, x1, y1, fill="green")
                 else:
                     if self.arrowDic.get((j,i)):
