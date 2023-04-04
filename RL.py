@@ -45,9 +45,9 @@ class RL:
         # self.grid[i][j].isTerminal = True
         # self.grid[i][j].reward = 100
         # self.grid[i][j].value = 1
-        self.grid[1][2].isTerminal = True
-        self.grid[1][2].reward = 100
-        self.grid[1][2].value = 1
+        self.grid[4][4].isTerminal = True
+        self.grid[4][4].reward = 100
+        self.grid[4][4].value = 1
         
         
 
@@ -127,21 +127,15 @@ class RL:
 
     def runEpisode(self):
         
-        # terminalReached = False
         green = False
-        # episode = 1
-        # print('Episode: ', episode)
-        
+
         for i in range(100):
             
             print("Episode: ", i)
-            # terminalReached = False
-            # greenTerminal = False
             self.currentState = (0,0)
             x,y = self.currentState
 
             while not self.grid[x][y].isTerminal:
-            # while(not(terminalReached)):
                 action = self.getAction()
                 if action == 'left':
                     i = self.currentState[0]
@@ -173,7 +167,7 @@ class RL:
                 
                 self.grid[self.currentState[0]][self.currentState[1]].value = self.grid[self.currentState[0]][self.currentState[1]].value + (self.alpha)*(self.grid[i][j].reward + (self.gamma)*(self.grid[i][j].value) - self.grid[self.currentState[0]][self.currentState[1]].value)
                 self.currentState = (i,j)
-                if self.currentState == (1,2):
+                if self.currentState == (4,4):
                     green = True
                     break
 
@@ -191,6 +185,8 @@ class RL:
             if green == True:
                 print("Green Terminal Reached")
                 break
+            else:
+                print("Red Terminal")
             
 
             # print('Action Selected: ', action)
